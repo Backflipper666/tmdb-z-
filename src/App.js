@@ -1,8 +1,7 @@
 import './App.css';
 import React from 'react';
 import axios from 'axios';
-import MovieCard from './components/MovieCard';
-import Movie from './components/Movie';
+import MovieList from './components/MovieList/MovieList';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,22 +22,22 @@ class App extends React.Component {
         <button onClick={this.fetchMovies}>Click me</button>
         <div>
           <img src={`${this.IMAGE_PATH}/mqsPyyeDCBAghXyjbw4TfEYwljw.jpg`} />
-          <Movie movies={this.state.movies} />
-          {this.state.movies.map((movie) => (
+          {/* <Movie movies={this.state.movies} /> */}
+          <MovieList movies={this.state.movies} />
+          {/*           {this.state.movies.map((movie) => (
             <div key={movie.id}>
               {movie.title}{' '}
               <img src={`${this.IMAGE_PATH}/${movie.poster_path}`} />
               <div>{movie.release_date}</div>
               <div>{movie.overview}</div>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     );
   }
 
   componentDidMount() {
-    console.log('did mount movies', this.state.movies);
     const fetchMovies = async (searchKey = null) => {
       const {
         data: { results },
@@ -51,13 +50,8 @@ class App extends React.Component {
       this.setState({
         movies: results,
       });
-      console.log(results);
     };
     fetchMovies();
-  }
-
-  componentDidUpdate() {
-    console.log('did update movies', this.state.movies);
   }
 }
 

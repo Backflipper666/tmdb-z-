@@ -24,28 +24,33 @@ const Movie = ({ movie }) => {
       10752: 'War',
       37: 'Western',
     };
+    if (!obj[genreId]) {
+      return 'All';
+    }
     return obj[genreId];
   };
 
   return (
     <div className="movie-wrapper">
       <li className="movie">
-        <h3 className="movie__title">{movie.title}</h3>
-        <p className="movie__date">{movie.release_date}</p>
-        <p className="movie__genre">
-          {movie.genre_ids[0]}, {identifyGenre(movie.genre_ids[0])}
-        </p>
-        <p>
-          Ultimate:{' '}
-          {movie.genre_ids.map((genreNum) => (
-            <span className="movie__genres">{identifyGenre(genreNum)}</span>
-          ))}
-        </p>
-        <p className="movie__overview">{movie.overview}</p>
-        <img
-          className="movie__image"
-          src={`${IMAGE_PATH}/${movie.poster_path}`}
-        />
+        <div className="movie__container">
+          <div className="movie__image-wrapper">
+            <img
+              className="movie__image"
+              src={`${IMAGE_PATH}/${movie.poster_path}`}
+            />
+          </div>
+          <div className="movie__content-wrapper">
+            <h3 className="movie__title">{movie.title}</h3>
+            <p className="movie__date">{movie.release_date}</p>
+            <p>
+              {movie.genre_ids.map((genreNum) => (
+                <span className="movie__genres">{identifyGenre(genreNum)}</span>
+              ))}
+            </p>
+            <p className="movie__overview">{movie.overview}</p>
+          </div>
+        </div>
       </li>
     </div>
   );

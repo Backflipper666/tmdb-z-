@@ -1,5 +1,5 @@
 import Movie from '../Movie/Movie';
-import './movieList.css';
+import './MovieList.css';
 const MovieList = ({ movies }) => {
   return (
     <ul className="movie-list">

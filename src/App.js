@@ -16,22 +16,10 @@ class App extends React.Component {
   };
 
   render() {
-    const renderFunc = new App();
     return (
       <div className="App">
-        <button onClick={this.fetchMovies}>Click me</button>
-        <div>
-          <img src={`${this.IMAGE_PATH}/mqsPyyeDCBAghXyjbw4TfEYwljw.jpg`} />
-          {/* <Movie movies={this.state.movies} /> */}
+        <div className="wrapper">
           <MovieList movies={this.state.movies} />
-          {/*           {this.state.movies.map((movie) => (
-            <div key={movie.id}>
-              {movie.title}{' '}
-              <img src={`${this.IMAGE_PATH}/${movie.poster_path}`} />
-              <div>{movie.release_date}</div>
-              <div>{movie.overview}</div>
-            </div>
-          ))} */}
         </div>
       </div>
     );

@@ -19,7 +19,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="wrapper">
-          <MovieList movies={this.state.movies} />
+          <div className="wrapper__inner">
+            <MovieList movies={this.state.movies} />
+          </div>
         </div>
       </div>
     );

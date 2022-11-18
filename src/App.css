@@ -1,7 +1,11 @@
 .App {
   text-align: center;
 }
-
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -38,8 +42,14 @@
 }
 
 .wrapper {
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+.wrapper__inner {
   width: 1010px;
   height: 1147px;
   margin-right: auto;
   margin-left: auto;
+  background-color: #fff;
 }

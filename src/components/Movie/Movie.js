@@ -30,6 +30,29 @@ const Movie = ({ movie }) => {
     return obj[genreId];
   };
 
+  const convertDate = (date) => {
+    // convert this "2022-10-19" to this "October 19, 2022"
+    const months = {
+      '01': 'January',
+      '02': 'February',
+      '03': 'March',
+      '04': 'April',
+      '05': 'May',
+      '06': 'June',
+      '07': 'July',
+      '08': 'August',
+      '09': 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December',
+    };
+
+    const [year, month, day] = date.split('-');
+
+    const output = `${months[month]} ${day}, ${year}`;
+    return output;
+  };
+
   return (
     <div className="movie-wrapper">
       <li className="movie">
@@ -38,11 +61,13 @@ const Movie = ({ movie }) => {
             <img
               className="movie__image"
               src={`${IMAGE_PATH}/${movie.poster_path}`}
+              alt="movie poster"
             />
           </div>
           <div className="movie__content-wrapper">
             <h3 className="movie__title">{movie.title}</h3>
-            <p className="movie__date">{movie.release_date}</p>
+            <p className="movie__date">{convertDate(movie.release_date)}</p>
+
             <p>
               {movie.genre_ids.map((genreNum) => (
                 <span className="movie__genres">{identifyGenre(genreNum)}</span>

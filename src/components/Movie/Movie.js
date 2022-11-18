@@ -1,3 +1,4 @@
+import './Movie.css';
 const Movie = ({ movie }) => {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
 
@@ -23,13 +24,23 @@ const Movie = ({ movie }) => {
       10752: 'War',
       37: 'Western',
     };
+    return obj[genreId];
   };
+
   return (
     <div className="movie-wrapper">
       <li className="movie">
         <h3 className="movie__title">{movie.title}</h3>
         <p className="movie__date">{movie.release_date}</p>
-        <p className="movie__genre">{movie.genre_ids[0]}</p>
+        <p className="movie__genre">
+          {movie.genre_ids[0]}, {identifyGenre(movie.genre_ids[0])}
+        </p>
+        <p>
+          Ultimate:{' '}
+          {movie.genre_ids.map((genreNum) => (
+            <span className="movie__genres">{identifyGenre(genreNum)}</span>
+          ))}
+        </p>
         <p className="movie__overview">{movie.overview}</p>
         <img
           className="movie__image"

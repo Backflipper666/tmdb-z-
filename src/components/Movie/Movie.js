@@ -53,6 +53,16 @@ const Movie = ({ movie }) => {
     return output;
   };
 
+  const cutOverview = (text, num = 170) => {
+    while (text[num] !== ' ') {
+      --num;
+    }
+    if (text.split(' ').length > 30) {
+      return text.substring(0, num) + ' ...';
+    }
+    return text;
+  };
+
   return (
     <div className="movie-wrapper">
       <li className="movie">
@@ -73,7 +83,7 @@ const Movie = ({ movie }) => {
                 <span className="movie__genres">{identifyGenre(genreNum)}</span>
               ))}
             </p>
-            <p className="movie__overview">{movie.overview}</p>
+            <p className="movie__overview">{cutOverview(movie.overview)}</p>
           </div>
         </div>
       </li>

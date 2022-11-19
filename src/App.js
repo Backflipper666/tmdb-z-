@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
-import { Spin } from 'antd';
+import { Spin, message, Alert } from 'antd';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -15,6 +15,8 @@ class App extends React.Component {
     movies: [],
     searchKey: '',
     loading: true,
+    films: [],
+    error: false,
   };
 
   searchMovies(e) {
@@ -44,7 +46,15 @@ class App extends React.Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, error } = this.state;
+    if (error) {
+      return (
+        <Alert
+          type="error"
+          description="unknown error occurred, try again later"
+        />
+      );
+    }
     if (loading) {
       return (
         <div className="spin-large">
@@ -52,6 +62,7 @@ class App extends React.Component {
         </div>
       );
     }
+
     return (
       <div className="App">
         <div className="wrapper">
@@ -60,8 +71,6 @@ class App extends React.Component {
               <input type="text" onChange={this.onInputChange} />
               <button type="submit">submit</button>
             </form>
-            {/* <Spinner /> */}
-            <Spin />
             {this.state.searchKey}
             <MovieList movies={this.state.movies} />
           </div>
@@ -87,6 +96,30 @@ class App extends React.Component {
       });
     };
     searchReturn();
+
+    axios.interceptors.response.use(
+      function (response) {
+        console.log(response.status);
+        if (response.data) {
+          // return success
+          if (response.status === 200 || response.status === 201) {
+            return response;
+          }
+          // reject errors & warnings
+          return Promise.reject(response);
+        }
+
+        return Promise.reject(response);
+      },
+      (error) => {
+        message.error('unknown error occurred');
+        this.setState({
+          loading: false,
+          error: true,
+        });
+        return Promise.reject(error);
+      }
+    );
   }
 }
 

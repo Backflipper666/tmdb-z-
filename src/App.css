@@ -53,3 +53,12 @@ body {
   margin-left: auto;
   background-color: #fff;
 }
+
+.spin-large {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
-
+import { Spin } from 'antd';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -14,6 +14,7 @@ class App extends React.Component {
   state = {
     movies: [],
     searchKey: '',
+    loading: true,
   };
 
   searchMovies(e) {
@@ -43,6 +44,14 @@ class App extends React.Component {
   };
 
   render() {
+    const { loading } = this.state;
+    if (loading) {
+      return (
+        <div className="spin-large">
+          <Spin size="large" />
+        </div>
+      );
+    }
     return (
       <div className="App">
         <div className="wrapper">
@@ -51,6 +60,8 @@ class App extends React.Component {
               <input type="text" onChange={this.onInputChange} />
               <button type="submit">submit</button>
             </form>
+            {/* <Spinner /> */}
+            <Spin />
             {this.state.searchKey}
             <MovieList movies={this.state.movies} />
           </div>
@@ -72,6 +83,7 @@ class App extends React.Component {
       } = response;
       this.setState({
         movies: results,
+        loading: false,
       });
     };
     searchReturn();

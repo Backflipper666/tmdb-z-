@@ -9,10 +9,37 @@ class App extends React.Component {
     this.type = this.state.searchKey ? 'search' : 'discover';
     this.API_URL = 'https://api.themoviedb.org/3';
     this.IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
+    this.searchMovies = this.searchMovies.bind(this);
   }
   state = {
     movies: [],
     searchKey: '',
+  };
+
+  searchMovies(e) {
+    e.preventDefault();
+    const searchKeyLocal = this.state.searchKey;
+    const fetchMovies = async (searchKey = null) => {
+      const {
+        data: { results },
+      } = await axios.get(`${this.API_URL}/${this.type}/movie`, {
+        params: {
+          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
+          query: searchKeyLocal,
+        },
+      });
+      this.setState({
+        movies: results,
+      });
+    };
+
+    fetchMovies(searchKeyLocal);
+  }
+
+  onInputChange = (e) => {
+    this.setState({
+      searchKey: e.target.value,
+    });
   };
 
   render() {
@@ -20,6 +47,11 @@ class App extends React.Component {
       <div className="App">
         <div className="wrapper">
           <div className="wrapper__inner">
+            <form onSubmit={this.searchMovies}>
+              <input type="text" onChange={this.onInputChange} />
+              <button type="submit">submit</button>
+            </form>
+            {this.state.searchKey}
             <MovieList movies={this.state.movies} />
           </div>
         </div>
@@ -28,20 +60,21 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const fetchMovies = async (searchKey = null) => {
-      const {
-        data: { results },
-      } = await axios.get(`${this.API_URL}/${this.type}/movie`, {
+    const searchReturn = async () => {
+      const response = await axios(`${this.API_URL}/search/movie`, {
         params: {
           api_key: '6bd0539fb9138af422e46ebff4f7ca19',
-          query: searchKey,
+          query: 'return',
         },
       });
+      const {
+        data: { results },
+      } = response;
       this.setState({
         movies: results,
       });
     };
-    fetchMovies();
+    searchReturn();
   }
 }
 

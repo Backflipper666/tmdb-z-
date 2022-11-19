@@ -3,6 +3,8 @@ import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
 import { Spin, message, Alert } from 'antd';
+import { Offline, Online } from 'react-detect-offline';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -65,16 +67,22 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <div className="wrapper">
-          <div className="wrapper__inner">
-            <form onSubmit={this.searchMovies}>
-              <input type="text" onChange={this.onInputChange} />
-              <button type="submit">submit</button>
-            </form>
-            {this.state.searchKey}
-            <MovieList movies={this.state.movies} />
+        <Online>
+          {' '}
+          <div className="wrapper">
+            <div className="wrapper__inner">
+              <form onSubmit={this.searchMovies}>
+                <input type="text" onChange={this.onInputChange} />
+                <button type="submit">submit</button>
+              </form>
+              {this.state.searchKey}
+              <MovieList movies={this.state.movies} />
+            </div>
           </div>
-        </div>
+        </Online>
+        <Offline>
+          <Alert type="error" description="No internet connection" />
+        </Offline>
       </div>
     );
   }

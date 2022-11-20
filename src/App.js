@@ -21,6 +21,48 @@ class App extends React.Component {
     error: false,
   };
 
+  searchReturnMethod() {
+    const searchReturn = async () => {
+      const response = await axios(`${this.API_URL}/search/movie`, {
+        params: {
+          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
+          query: 'return',
+        },
+      });
+      const {
+        data: { results },
+      } = response;
+      this.setState({
+        movies: results,
+        loading: false,
+      });
+    };
+    searchReturn();
+
+    axios.interceptors.response.use(
+      function (response) {
+        console.log(response.status);
+        if (response.data) {
+          // return success
+          if (response.status === 200 || response.status === 201) {
+            return response;
+          }
+          // reject errors & warnings
+          return Promise.reject(response);
+        }
+
+        return Promise.reject(response);
+      },
+      (error) => {
+        message.error('unknown error occurred');
+        this.setState({
+          loading: false,
+          error: true,
+        });
+        return Promise.reject(error);
+      }
+    );
+  }
   searchMovies(e) {
     e.preventDefault();
     const searchKeyLocal = this.state.searchKey;
@@ -88,46 +130,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const searchReturn = async () => {
-      const response = await axios(`${this.API_URL}/search/movie`, {
-        params: {
-          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
-          query: 'return',
-        },
-      });
-      const {
-        data: { results },
-      } = response;
-      this.setState({
-        movies: results,
-        loading: false,
-      });
-    };
-    searchReturn();
-
-    axios.interceptors.response.use(
-      function (response) {
-        console.log(response.status);
-        if (response.data) {
-          // return success
-          if (response.status === 200 || response.status === 201) {
-            return response;
-          }
-          // reject errors & warnings
-          return Promise.reject(response);
-        }
-
-        return Promise.reject(response);
-      },
-      (error) => {
-        message.error('unknown error occurred');
-        this.setState({
-          loading: false,
-          error: true,
-        });
-        return Promise.reject(error);
-      }
-    );
+    this.searchReturnMethod();
   }
 }
 

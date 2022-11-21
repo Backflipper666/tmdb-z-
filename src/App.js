@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
-import { Spin, message, Alert } from 'antd';
+import { Spin, message, Alert, Pagination } from 'antd';
 import { Offline, Online } from 'react-detect-offline';
 
 class App extends React.Component {
@@ -15,27 +15,33 @@ class App extends React.Component {
   }
   state = {
     movies: [],
-    searchKey: '',
+    searchWord: 'return',
     loading: true,
     films: [],
     error: false,
+    page: 1,
+    totalPages: 3,
   };
 
   searchReturnMethod() {
     const searchReturn = async () => {
+      const searchWord = this.state.searchWord;
       const response = await axios(`${this.API_URL}/search/movie`, {
         params: {
           api_key: '6bd0539fb9138af422e46ebff4f7ca19',
-          query: 'return',
+          query: searchWord.trim().length ? `${searchWord}` : 'return',
         },
       });
       const {
-        data: { results },
+        data: { results, page, total_pages },
       } = response;
       this.setState({
         movies: results,
         loading: false,
+        page: page,
+        totalPages: total_pages,
       });
+      console.log(response);
     };
     searchReturn();
 
@@ -63,34 +69,22 @@ class App extends React.Component {
       }
     );
   }
+
   searchMovies(e) {
     e.preventDefault();
-    const searchKeyLocal = this.state.searchKey;
-    const fetchMovies = async (searchKey = null) => {
-      const {
-        data: { results },
-      } = await axios.get(`${this.API_URL}/${this.type}/movie`, {
-        params: {
-          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
-          query: searchKeyLocal,
-        },
-      });
-      this.setState({
-        movies: results,
-      });
-    };
-
-    fetchMovies(searchKeyLocal);
+    // const searchWord = this.state.searchWord;
+    // this.setState({ searchWord: e.target.value });
   }
 
   onInputChange = (e) => {
     this.setState({
       searchKey: e.target.value,
+      searchWord: e.target.value,
     });
   };
 
   render() {
-    const { loading, error } = this.state;
+    const { loading, error, page, totalPages } = this.state;
     if (error) {
       return (
         <Alert
@@ -130,6 +124,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.searchReturnMethod();
+  }
+  componentDidUpdate() {
     this.searchReturnMethod();
   }
 }

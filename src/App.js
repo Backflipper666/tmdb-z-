@@ -15,7 +15,6 @@ class App extends React.Component {
     this.IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
 
     this.searchReturnMethod = this.searchReturnMethod.bind(this);
-    this.debounced = this.debounced.bind(this);
   }
 
   state = {
@@ -89,18 +88,6 @@ class App extends React.Component {
       page: e,
     });
   };
-
-  debounce = (func, delay = 400) => {
-    let inDebounce;
-    return function () {
-      const context = this;
-      const args = arguments;
-      clearTimeout(inDebounce);
-      inDebounce = setTimeout(() => func.apply(context, args), delay);
-    };
-  };
-
-  debounced = _.debounce(this.searchReturnMethod, 500);
 
   render() {
     const { loading, error, page, totalPages } = this.state;

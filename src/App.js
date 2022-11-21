@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
+import SearchBar from './components/SearchBar/SearchBar';
 import { Spin, message, Alert, Pagination } from 'antd';
 import { Offline, Online } from 'react-detect-offline';
 
@@ -11,7 +12,6 @@ class App extends React.Component {
     this.type = this.state.searchKey ? 'search' : 'discover';
     this.API_URL = 'https://api.themoviedb.org/3';
     this.IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
-    this.searchMovies = this.searchMovies.bind(this);
   }
   state = {
     movies: [],
@@ -72,12 +72,6 @@ class App extends React.Component {
     );
   }
 
-  searchMovies(e) {
-    e.preventDefault();
-    // const searchWord = this.state.searchWord;
-    // this.setState({ searchWord: e.target.value });
-  }
-
   onInputChange = (e) => {
     this.setState({
       searchKey: e.target.value,
@@ -86,8 +80,6 @@ class App extends React.Component {
   };
 
   onPaginationClick = (e) => {
-    console.log('pag click');
-    console.log(e);
     this.setState({
       page: e,
     });
@@ -117,11 +109,7 @@ class App extends React.Component {
           {' '}
           <div className="wrapper">
             <div className="wrapper__inner">
-              <form onSubmit={this.searchMovies}>
-                <input type="text" onChange={this.onInputChange} />
-                <button type="submit">submit</button>
-              </form>
-              {this.state.searchKey}
+              <SearchBar onInputChange={this.onInputChange} />
               <MovieList movies={this.state.movies} />
               <Pagination
                 defaultCurrent={1}

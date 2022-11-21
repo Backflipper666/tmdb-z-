@@ -67,3 +67,8 @@ body {
   display: none;
   visibility: hidden;
 }
+.ant-tabs-nav::before {
+  width: 146px;
+  margin-left: auto;
+  margin-right: auto;
+}

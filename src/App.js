@@ -119,7 +119,7 @@ class App extends React.Component {
           {' '}
           <div className="wrapper">
             <div className="wrapper__inner">
-              <Tabs>
+              <Tabs centered>
                 <Tabs.TabPane tab="Search" key="item-1">
                   <Space />
                   <SearchBar onInputChange={this.onInputChange} />

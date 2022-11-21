@@ -26,10 +26,12 @@ class App extends React.Component {
   searchReturnMethod() {
     const searchReturn = async () => {
       const searchWord = this.state.searchWord;
+
       const response = await axios(`${this.API_URL}/search/movie`, {
         params: {
           api_key: '6bd0539fb9138af422e46ebff4f7ca19',
           query: searchWord.trim().length ? `${searchWord}` : 'return',
+          page: this.state.page,
         },
       });
       const {
@@ -83,6 +85,14 @@ class App extends React.Component {
     });
   };
 
+  onPaginationClick = (e) => {
+    console.log('pag click');
+    console.log(e);
+    this.setState({
+      page: e,
+    });
+  };
+
   render() {
     const { loading, error, page, totalPages } = this.state;
     if (error) {
@@ -113,6 +123,12 @@ class App extends React.Component {
               </form>
               {this.state.searchKey}
               <MovieList movies={this.state.movies} />
+              <Pagination
+                defaultCurrent={1}
+                current={page}
+                total={totalPages}
+                onChange={this.onPaginationClick}
+              />
             </div>
           </div>
         </Online>
@@ -126,8 +142,14 @@ class App extends React.Component {
   componentDidMount() {
     this.searchReturnMethod();
   }
-  componentDidUpdate() {
-    this.searchReturnMethod();
+  componentDidUpdate(_prevProps, prevState) {
+    if (this.state.searchWord !== prevState.searchWord) {
+      console.log('did update');
+      this.searchReturnMethod();
+    }
+    if (this.state.page !== prevState.page) {
+      this.searchReturnMethod();
+    }
   }
 }
 

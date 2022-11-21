@@ -62,3 +62,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.ant-select-selector {
+  display: none;
+  visibility: hidden;
+}

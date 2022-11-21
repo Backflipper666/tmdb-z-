@@ -5,6 +5,7 @@ import MovieList from './components/MovieList/MovieList';
 import SearchBar from './components/SearchBar/SearchBar';
 import { Spin, message, Alert, Pagination } from 'antd';
 import { Offline, Online } from 'react-detect-offline';
+import _ from 'lodash';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,7 +13,11 @@ class App extends React.Component {
     this.type = this.state.searchKey ? 'search' : 'discover';
     this.API_URL = 'https://api.themoviedb.org/3';
     this.IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
+
+    this.searchReturnMethod = this.searchReturnMethod.bind(this);
+    this.debounced = this.debounced.bind(this);
   }
+
   state = {
     movies: [],
     searchWord: 'return',
@@ -84,6 +89,18 @@ class App extends React.Component {
       page: e,
     });
   };
+
+  debounce = (func, delay = 400) => {
+    let inDebounce;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(inDebounce);
+      inDebounce = setTimeout(() => func.apply(context, args), delay);
+    };
+  };
+
+  debounced = _.debounce(this.searchReturnMethod, 500);
 
   render() {
     const { loading, error, page, totalPages } = this.state;

@@ -1,13 +1,21 @@
+import _ from 'lodash';
+import { Input } from 'antd';
+
 const SearchBar = ({ onInputChange }) => {
-  const inputChange = (e) => {
+  const debounced = _.debounce((e) => {
     onInputChange(e);
-  };
+  }, 1000);
+
   const searchSubmit = (e) => {
     e.preventDefault();
   };
   return (
     <form onSubmit={searchSubmit}>
-      <input type="text" onChange={inputChange} />
+      <Input
+        onChange={debounced}
+        size="large"
+        placeholder="Type to search..."
+      />
     </form>
   );
 };

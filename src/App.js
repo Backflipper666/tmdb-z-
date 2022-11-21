@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
 import SearchBar from './components/SearchBar/SearchBar';
-import { Spin, message, Alert, Pagination, Space } from 'antd';
+import { Spin, message, Alert, Pagination, Space, Tabs } from 'antd';
 import { Offline, Online } from 'react-detect-offline';
 import _ from 'lodash';
 
@@ -106,6 +106,12 @@ class App extends React.Component {
         </div>
       );
     }
+    const items = [
+      { label: 'Search', key: 1, children: 'content - 1' },
+      { label: 'Rated', key: 2, children: 'content - 2' },
+    ];
+
+    // return <Tabs items={items}/>
 
     return (
       <div className="App">
@@ -113,15 +119,20 @@ class App extends React.Component {
           {' '}
           <div className="wrapper">
             <div className="wrapper__inner">
-              <Space />
-              <SearchBar onInputChange={this.onInputChange} />
-              <MovieList movies={this.state.movies} />
-              <Pagination
-                defaultCurrent={1}
-                current={page}
-                total={totalPages}
-                onChange={this.onPaginationClick}
-              />
+              <Tabs>
+                <Tabs.TabPane tab="Search" key="item-1">
+                  <Space />
+                  <SearchBar onInputChange={this.onInputChange} />
+                  <MovieList movies={this.state.movies} />
+                  <Pagination
+                    defaultCurrent={1}
+                    current={page}
+                    total={totalPages}
+                    onChange={this.onPaginationClick}
+                  />
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="Rated" key="item-2"></Tabs.TabPane>
+              </Tabs>
             </div>
           </div>
         </Online>

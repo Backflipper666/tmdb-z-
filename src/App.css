@@ -48,10 +48,10 @@ body {
 }
 .wrapper__inner {
   width: 1010px;
-  height: 1147px;
   margin-right: auto;
   margin-left: auto;
   background-color: #fff;
+  padding-bottom: 16px;
 }
 
 .spin-large {

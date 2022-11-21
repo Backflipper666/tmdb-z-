@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
 import SearchBar from './components/SearchBar/SearchBar';
-import { Spin, message, Alert, Pagination } from 'antd';
+import { Spin, message, Alert, Pagination, Space } from 'antd';
 import { Offline, Online } from 'react-detect-offline';
 import _ from 'lodash';
 
@@ -113,6 +113,7 @@ class App extends React.Component {
           {' '}
           <div className="wrapper">
             <div className="wrapper__inner">
+              <Space />
               <SearchBar onInputChange={this.onInputChange} />
               <MovieList movies={this.state.movies} />
               <Pagination

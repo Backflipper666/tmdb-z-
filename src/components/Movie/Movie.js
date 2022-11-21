@@ -79,7 +79,7 @@ const Movie = ({ movie }) => {
             <p className="movie__date">{convertDate(movie.release_date)}</p>
 
             <p>
-              {movie.genre_ids.map((genreNum) => (
+              {movie.genre_ids.slice(0, 2).map((genreNum) => (
                 <span className="movie__genres">{identifyGenre(genreNum)}</span>
               ))}
             </p>

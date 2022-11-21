@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { Input } from 'antd';
+import './SearchBar.css';
 
 const SearchBar = ({ onInputChange }) => {
   const debounced = _.debounce((e) => {
@@ -15,6 +16,7 @@ const SearchBar = ({ onInputChange }) => {
         onChange={debounced}
         size="large"
         placeholder="Type to search..."
+        className="input"
       />
     </form>
   );

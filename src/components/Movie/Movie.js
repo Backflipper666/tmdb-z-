@@ -1,3 +1,4 @@
+import { Rate } from 'antd';
 import './Movie.css';
 const Movie = ({ movie }) => {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
@@ -53,11 +54,11 @@ const Movie = ({ movie }) => {
     return output;
   };
 
-  const cutOverview = (text, num = 170) => {
+  const cutOverview = (text, num = 120) => {
     while (text[num] !== ' ') {
       --num;
     }
-    if (text.split(' ').length > 30) {
+    if (text.split(' ').length > 15) {
       return text.substring(0, num) + ' ...';
     }
     return text;
@@ -84,6 +85,13 @@ const Movie = ({ movie }) => {
               ))}
             </p>
             <p className="movie__overview">{cutOverview(movie.overview)}</p>
+
+            <Rate
+              allowHalf
+              defaultValue={5}
+              count={10}
+              className="movie__rate"
+            />
           </div>
         </div>
       </li>

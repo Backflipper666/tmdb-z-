@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
 import SearchBar from './components/SearchBar/SearchBar';
-import { Spin, message, Alert, Pagination, Space, Tabs } from 'antd';
+import { Spin, message, Alert, Pagination, Tabs } from 'antd';
 import { Offline, Online } from 'react-detect-offline';
 
 class App extends React.Component {
@@ -135,7 +135,10 @@ class App extends React.Component {
                     </>
                   )}
                 </Tabs.TabPane>
-                <Tabs.TabPane tab="Rated" key="item-2"></Tabs.TabPane>
+                <Tabs.TabPane tab="Rated" key="item-2">
+                  {' '}
+                  <SearchBar onInputChange={this.onInputChange} />
+                </Tabs.TabPane>
               </Tabs>
             </div>
           </div>
@@ -150,9 +153,10 @@ class App extends React.Component {
   componentDidMount() {
     this.searchReturnMethod();
   }
-  componentDidUpdate(_prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.searchWord !== prevState.searchWord) {
       console.log('did update');
+      console.log(prevProps);
       this.searchReturnMethod();
     }
     if (this.state.page !== prevState.page) {

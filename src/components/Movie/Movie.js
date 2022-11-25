@@ -53,48 +53,40 @@ const Movie = ({ movie }) => {
     const output = `${months[month]} ${day}, ${year}`;
     return output;
   };
-
-  const cutOverview = (text, num = 120) => {
-    while (text[num] !== ' ') {
-      --num;
-    }
-    if (text.split(' ').length > 15) {
-      return text.substring(0, num) + ' ...';
-    }
-    return text;
+  const shortenOverview = (overview, maximumLength = 120) => {
+    const trimmedString = overview.substr(0, maximumLength);
+    return (
+      trimmedString.substr(
+        0,
+        Math.min(trimmedString.length, trimmedString.lastIndexOf(' '))
+      ) + ' ...'
+    );
   };
 
   return (
-    <div className="movie-wrapper">
-      <li className="movie">
-        <div className="movie__container">
-          <div className="movie__image-wrapper">
-            <img
-              className="movie__image"
-              src={`${IMAGE_PATH}/${movie.poster_path}`}
-              alt="movie poster"
-            />
-          </div>
-          <div className="movie__content-wrapper">
-            <h3 className="movie__title">{movie.title}</h3>
-            <p className="movie__date">{convertDate(movie.release_date)}</p>
+    <div className="movie__container">
+      <div className="movie__image-wrapper">
+        <img
+          className="movie__image"
+          src={`${IMAGE_PATH}/${movie.poster_path}`}
+          alt="movie poster"
+        />
+      </div>
+      <div className="movie__content-wrapper">
+        <h3 className="movie__title">{movie.title}</h3>
+        <p className="movie__date">{convertDate(movie.release_date)}</p>
 
-            <p>
-              {movie.genre_ids.slice(0, 2).map((genreNum) => (
-                <span className="movie__genres">{identifyGenre(genreNum)}</span>
-              ))}
-            </p>
-            <p className="movie__overview">{cutOverview(movie.overview)}</p>
+        <p>
+          {movie.genre_ids.slice(0, 2).map((genreNum) => (
+            <span key={Math.random()} className="movie__genres">
+              {identifyGenre(genreNum)}
+            </span>
+          ))}
+        </p>
+        <p className="movie__overview">{shortenOverview(movie.overview)}</p>
 
-            <Rate
-              allowHalf
-              defaultValue={5}
-              count={10}
-              className="movie__rate"
-            />
-          </div>
-        </div>
-      </li>
+        <Rate allowHalf defaultValue={5} count={10} className="movie__rate" />
+      </div>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import './SearchBar.css';
 const SearchBar = ({ onInputChange }) => {
   const debounced = _.debounce((e) => {
     onInputChange(e);
-  }, 1000);
+  }, 2000);
 
   const searchSubmit = (e) => {
     e.preventDefault();

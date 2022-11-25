@@ -26,6 +26,40 @@ class App extends React.Component {
     totalPages: 3,
   };
 
+  createRequestToken() {
+    const createGuest = async () => {
+      const response = await axios(`${this.API_URL}/authentication/token/new`, {
+        params: {
+          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
+        },
+      });
+      console.log('createGuest: ', response);
+      const {
+        data: { request_token },
+      } = response;
+      console.log(request_token);
+    };
+    createGuest();
+  }
+  createGuestSession() {
+    const createGuest = async () => {
+      const response = await axios(
+        `${this.API_URL}/authentication/guest_session/new`,
+        {
+          params: {
+            api_key: '6bd0539fb9138af422e46ebff4f7ca19',
+          },
+        }
+      );
+      console.log('guest session: ', response);
+      const {
+        data: { guest_session_id },
+      } = response;
+      console.log('guest session id: ', guest_session_id);
+    };
+    createGuest();
+  }
+
   searchReturnMethod() {
     const searchReturn = async () => {
       const searchWord = this.state.searchWord;
@@ -46,13 +80,12 @@ class App extends React.Component {
         page: page,
         totalPages: total_pages,
       });
-      console.log(response);
+      // console.log(response);
     };
     searchReturn();
 
     axios.interceptors.response.use(
       function (response) {
-        console.log(response.status);
         if (response.data) {
           // return success
           if (response.status === 200 || response.status === 201) {
@@ -152,11 +185,11 @@ class App extends React.Component {
 
   componentDidMount() {
     this.searchReturnMethod();
+    this.createGuestSession();
   }
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps, prevState) {
     if (this.state.searchWord !== prevState.searchWord) {
-      console.log('did update');
-      console.log(prevProps);
+      // console.log('did update');
       this.searchReturnMethod();
     }
     if (this.state.page !== prevState.page) {

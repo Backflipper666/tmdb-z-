@@ -68,9 +68,12 @@ const Movie = ({ movie, onRate }) => {
     // console.log(number);
     // console.log('id is: ', movie.id);
     onRate(number, movie);
-    console.log(movie);
-    // localStorage.setItem();
+    // console.log(movie);
+    localStorage.setItem(movie.id, number);
+    console.log('value: ', localStorage.getItem(movie.id));
   };
+
+  const currentValue = localStorage.getItem(movie.id);
 
   return (
     <div className="movie__container">
@@ -96,7 +99,8 @@ const Movie = ({ movie, onRate }) => {
 
         <Rate
           allowHalf
-          defaultValue={5}
+          defaultValue={0}
+          value={currentValue ? Number(currentValue) : 0}
           count={10}
           className="movie__rate"
           onChange={onRateClick}

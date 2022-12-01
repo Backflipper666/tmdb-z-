@@ -21,7 +21,9 @@ class App extends React.Component {
     movies: [],
     searchWord: 'return',
     loading: true,
-    films: [],
+    films: JSON.parse(localStorage.getItem('films'))
+      ? JSON.parse(localStorage.getItem('films'))
+      : [],
     error: false,
     page: 1,
     totalPages: 3,
@@ -53,11 +55,9 @@ class App extends React.Component {
           },
         }
       );
-      console.log('guest session: ', response);
       const {
         data: { guest_session_id },
       } = response;
-      console.log('guest session id: ', guest_session_id);
       this.setState((state) => ({
         guestSessionId: guest_session_id,
       }));
@@ -128,14 +128,12 @@ class App extends React.Component {
 
   onRate = (number, movie) => {
     this.setState((state) => ({
-      films: [...state.films, movie],
+      films: localStorage.getItem('films')
+        ? [...JSON.parse(localStorage.getItem('films')), movie]
+        : [...state.films, movie],
     }));
     console.log(number);
     localStorage.setItem('films', JSON.stringify(this.state.films));
-    // console.log('localStorage', localStorage.getItem('films'));
-    const filmsParsed = JSON.parse(localStorage.getItem('films'));
-    console.log(filmsParsed);
-    return filmsParsed;
   };
 
   render() {
@@ -172,6 +170,13 @@ class App extends React.Component {
               <Tabs centered>
                 <Tabs.TabPane tab="Search" key="item-1">
                   <SearchBar onInputChange={this.onInputChange} />
+                  <button
+                    onClick={() => {
+                      localStorage.clear();
+                    }}
+                  >
+                    Clear
+                  </button>
                   {this.state.movies.length === 0 ? (
                     <Alert type="error" description="not found" />
                   ) : (

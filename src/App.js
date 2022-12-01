@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import MovieList from './components/MovieList/MovieList';
 import SearchBar from './components/SearchBar/SearchBar';
+import RatedMovieList from './components/RatedMovieList/RatedMovieList';
 import { Spin, message, Alert, Pagination, Tabs } from 'antd';
 import { Offline, Online } from 'react-detect-offline';
 
@@ -24,6 +25,7 @@ class App extends React.Component {
     error: false,
     page: 1,
     totalPages: 3,
+    guestSessionId: null,
   };
 
   createRequestToken() {
@@ -56,6 +58,9 @@ class App extends React.Component {
         data: { guest_session_id },
       } = response;
       console.log('guest session id: ', guest_session_id);
+      this.setState((state) => ({
+        guestSessionId: guest_session_id,
+      }));
     };
     createGuest();
   }
@@ -121,8 +126,21 @@ class App extends React.Component {
     });
   };
 
+  onRate = (number, movie) => {
+    this.setState((state) => ({
+      films: [...state.films, movie],
+    }));
+    console.log(number);
+    localStorage.setItem('films', JSON.stringify(this.state.films));
+    // console.log('localStorage', localStorage.getItem('films'));
+    const filmsParsed = JSON.parse(localStorage.getItem('films'));
+    console.log(filmsParsed);
+    return filmsParsed;
+  };
+
   render() {
     const { loading, error, page, totalPages } = this.state;
+    const filmsFromLocalStorage = JSON.parse(localStorage.getItem('films'));
     if (error) {
       return (
         <Alert
@@ -158,7 +176,10 @@ class App extends React.Component {
                     <Alert type="error" description="not found" />
                   ) : (
                     <>
-                      <MovieList movies={this.state.movies} />
+                      <MovieList
+                        movies={this.state.movies}
+                        onRate={this.onRate}
+                      />
                       <Pagination
                         defaultCurrent={1}
                         current={page}
@@ -171,6 +192,10 @@ class App extends React.Component {
                 <Tabs.TabPane tab="Rated" key="item-2">
                   {' '}
                   <SearchBar onInputChange={this.onInputChange} />
+                  <RatedMovieList
+                    movies={filmsFromLocalStorage}
+                    onRate={this.onRate}
+                  />
                 </Tabs.TabPane>
               </Tabs>
             </div>

@@ -126,16 +126,6 @@ class App extends React.Component {
     });
   };
 
-  onRate = (number, movie) => {
-    this.setState((state) => ({
-      films: localStorage.getItem('films')
-        ? [...JSON.parse(localStorage.getItem('films')), movie]
-        : [...state.films, movie],
-    }));
-    console.log(number);
-    localStorage.setItem('films', JSON.stringify(this.state.films));
-  };
-
   render() {
     const { loading, error, page, totalPages } = this.state;
     const filmsFromLocalStorage = JSON.parse(localStorage.getItem('films'));
@@ -183,7 +173,7 @@ class App extends React.Component {
                     <>
                       <MovieList
                         movies={this.state.movies}
-                        onRate={this.onRate}
+                        films={this.state.films}
                       />
                       <Pagination
                         defaultCurrent={1}

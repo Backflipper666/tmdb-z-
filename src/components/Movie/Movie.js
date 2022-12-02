@@ -1,6 +1,6 @@
 import { Rate } from 'antd';
 import './Movie.css';
-const Movie = ({ movie, onRate }) => {
+const Movie = ({ movie, films, filmsArray, setFilmsArray }) => {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
 
   const identifyGenre = (genreId) => {
@@ -64,13 +64,18 @@ const Movie = ({ movie, onRate }) => {
     );
   };
 
-  const onRateClick = (number) => {
-    // console.log(number);
-    // console.log('id is: ', movie.id);
-    onRate(number, movie);
-    // console.log(movie);
-    localStorage.setItem(movie.id, number);
-    console.log('value: ', localStorage.getItem(movie.id));
+  const onRateClick = async (number) => {
+    const setLocals = localStorage.getItem('cinemas');
+    console.log(setLocals);
+
+    setFilmsArray([...filmsArray, movie]);
+    localStorage.setItem('cinemas', JSON.stringify([...filmsArray, movie]));
+
+    onRateSetStars(number);
+  };
+
+  const onRateSetStars = (num) => {
+    localStorage.setItem(movie.id, num);
   };
 
   const currentValue = localStorage.getItem(movie.id);

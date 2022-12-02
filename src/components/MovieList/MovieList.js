@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Movie from '../Movie/Movie';
 import './MovieList.css';
-const MovieList = ({ movies, films }) => {
+const MovieList = ({ movies, films, onRate }) => {
   const [filmsArray, setFilmsArray] = useState([]);
   // console.log('movies is: ', movies);
   return (
@@ -14,6 +14,7 @@ const MovieList = ({ movies, films }) => {
             films={films}
             filmsArray={filmsArray}
             setFilmsArray={setFilmsArray}
+            onRate={onRate}
           />
         </li>
       ))}

@@ -28,6 +28,7 @@ class App extends React.Component {
     page: 1,
     totalPages: 3,
     guestSessionId: null,
+    videos: [],
   };
 
   createRequestToken() {
@@ -126,6 +127,12 @@ class App extends React.Component {
     });
   };
 
+  onRate = (arr) => {
+    this.setState(() => ({
+      videos: arr,
+    }));
+  };
+
   render() {
     const { loading, error, page, totalPages } = this.state;
     const filmsFromLocalStorage = JSON.parse(localStorage.getItem('films'));
@@ -174,6 +181,7 @@ class App extends React.Component {
                       <MovieList
                         movies={this.state.movies}
                         films={this.state.films}
+                        onRate={this.onRate}
                       />
                       <Pagination
                         defaultCurrent={1}
@@ -188,7 +196,7 @@ class App extends React.Component {
                   {' '}
                   <SearchBar onInputChange={this.onInputChange} />
                   <RatedMovieList
-                    movies={filmsFromLocalStorage}
+                    movies={this.state.videos}
                     onRate={this.onRate}
                   />
                 </Tabs.TabPane>

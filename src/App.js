@@ -28,7 +28,9 @@ class App extends React.Component {
     page: 1,
     totalPages: 3,
     guestSessionId: null,
-    videos: [],
+    videos: localStorage.getItem('cinemas')
+      ? JSON.parse(localStorage.getItem('cinemas'))
+      : [],
   };
 
   createRequestToken() {
@@ -135,7 +137,6 @@ class App extends React.Component {
 
   render() {
     const { loading, error, page, totalPages } = this.state;
-    const filmsFromLocalStorage = JSON.parse(localStorage.getItem('films'));
     if (error) {
       return (
         <Alert

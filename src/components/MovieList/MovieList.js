@@ -2,7 +2,11 @@ import { useState } from 'react';
 import Movie from '../Movie/Movie';
 import './MovieList.css';
 const MovieList = ({ movies, films, onRate }) => {
-  const [filmsArray, setFilmsArray] = useState([]);
+  const [filmsArray, setFilmsArray] = useState(
+    localStorage.getItem('cinemas')
+      ? JSON.parse(localStorage.getItem('cinemas'))
+      : []
+  );
   // console.log('movies is: ', movies);
   return (
     <ul className="movie-list">

@@ -7,7 +7,6 @@ const MovieList = ({ movies, films, onRate }) => {
       ? JSON.parse(localStorage.getItem('cinemas'))
       : []
   );
-  // console.log('movies is: ', movies);
   return (
     <ul className="movie-list">
       {movies.map((movie) => (

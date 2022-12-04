@@ -3,13 +3,24 @@ import './RatedMovieList.css';
 const RatedMovieList = ({ movies, onRate }) => {
   // console.log('movies is: ', movies);
   return (
-    <ul className="movie-list">
-      {movies.map((movie) => (
-        <li className="movie" key={movie.id}>
-          <RatedMovie key={movie.id} movie={movie} onRate={onRate} />
-        </li>
-      ))}
-    </ul>
+    <div className="wrapper-inner rated-movie-list">
+      {movies.length === 0 ? (
+        <div className="movie-empty">Empty</div>
+      ) : (
+        <ul className="movie-list">
+          {movies.map((movie) => (
+            <li className="movie" key={movie.id}>
+              <RatedMovie
+                key={movie.id}
+                movie={movie}
+                onRate={onRate}
+                movies={movies}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 

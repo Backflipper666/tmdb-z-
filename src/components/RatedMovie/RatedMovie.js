@@ -1,6 +1,6 @@
 import { Rate } from 'antd';
 import './RatedMovie.css';
-const RatedMovie = ({ movie, onRate }) => {
+const RatedMovie = ({ movie, onRate, movies }) => {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
 
   const identifyGenre = (genreId) => {

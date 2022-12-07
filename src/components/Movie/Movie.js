@@ -3,6 +3,9 @@ import './Movie.css';
 const Movie = ({ movie, films, filmsArray, setFilmsArray, onRate }) => {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
 
+  const empty =
+    'https://cdn.dribbble.com/users/55871/screenshots/2158022/media/8f2a4a2c9126a9f265fb9e1023b1698a.jpg?compress=1&resize=400x300';
+
   const identifyGenre = (genreId) => {
     const obj = {
       28: 'Action',
@@ -80,15 +83,38 @@ const Movie = ({ movie, films, filmsArray, setFilmsArray, onRate }) => {
     localStorage.setItem(movie.id, num);
   };
 
+  const colorBorder = (num) => {
+    if (num < 3) {
+      return <div className="movie__average movie__average-three">{num}</div>;
+    } else if (num >= 3 && num < 5) {
+      return <div className="movie__average movie__average-five">{num}</div>;
+    } else if (num >= 5 && num < 7) {
+      return <div className="movie__average movie__average-seven">{num}</div>;
+    } else if (num >= 7) {
+      return <div className="movie__average movie__average-high">{num}</div>;
+    }
+  };
+
   const currentValue = localStorage.getItem(movie.id);
+
+  const isImageAvailable = movie.poster_path === null;
 
   return (
     <div className="movie__container">
       <div className="movie__image-wrapper">
         <img
           className="movie__image"
-          src={`${IMAGE_PATH}/${movie.poster_path}`}
+          src={
+            !isImageAvailable
+              ? `${IMAGE_PATH}/${movie.poster_path}`
+              : 'https://library.ucf.edu/wp-content/uploads/sites/5/2015/08/photo-not-available-300x300.jpg'
+          }
           alt="movie poster"
+          onLoad={() => {
+            if (movie.poster_path === null) {
+              console.log('tratata');
+            }
+          }}
         />
       </div>
       <div className="movie__content-wrapper">
@@ -112,7 +138,7 @@ const Movie = ({ movie, films, filmsArray, setFilmsArray, onRate }) => {
           className="movie__rate"
           onChange={onRateClick}
         />
-        <div className="movie__average">{movie.vote_average}</div>
+        <div>{colorBorder(movie.vote_average)}</div>
       </div>
     </div>
   );

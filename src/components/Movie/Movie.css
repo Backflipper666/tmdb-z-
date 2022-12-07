@@ -15,6 +15,7 @@
 .movie__image {
   width: 183px;
   height: 281px;
+  min-width: 183px;
 }
 
 .movie__overview {
@@ -53,7 +54,8 @@
   text-align: left;
   margin-left: 17px;
   margin-right: 17px;
-  position: relative;
+  /* position: relative; */
+  min-width: 235px;
 }
 
 .movie__rate {
@@ -76,4 +78,29 @@
   vertical-align: middle;
   display: inline-block;
   line-height: 1.8;
+}
+.movie__average-three {
+  border: 2px solid #e90000;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.movie__average-five {
+  border: 2px solid #e97e00;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+.movie__average-seven {
+  border: 2px solid #e9d100;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+.movie__average-high {
+  border: 2px solid #66e900;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
 }

@@ -67,7 +67,7 @@ const Movie = ({ movie, films, filmsArray, setFilmsArray, onRate }) => {
   const onRateClick = (number) => {
     const setLocals = localStorage.getItem('cinemas');
     console.log(setLocals);
-
+    console.log(movie.vote_average);
     setFilmsArray([...filmsArray, movie]);
     localStorage.setItem('cinemas', JSON.stringify([...filmsArray, movie]));
 
@@ -112,6 +112,7 @@ const Movie = ({ movie, films, filmsArray, setFilmsArray, onRate }) => {
           className="movie__rate"
           onChange={onRateClick}
         />
+        <div className="movie__average">{movie.vote_average}</div>
       </div>
     </div>
   );

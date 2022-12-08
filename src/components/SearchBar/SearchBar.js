@@ -1,25 +1,20 @@
-import _ from 'lodash';
-import { Input } from 'antd';
-import './SearchBar.css';
+import _ from 'lodash'
+import { Input } from 'antd'
+import './SearchBar.css'
 
-const SearchBar = ({ onInputChange }) => {
+function SearchBar({ onInputChange }) {
   const debounced = _.debounce((e) => {
-    onInputChange(e);
-  }, 2000);
+    onInputChange(e)
+  }, 2000)
 
   const searchSubmit = (e) => {
-    e.preventDefault();
-  };
+    e.preventDefault()
+  }
   return (
     <form onSubmit={searchSubmit}>
-      <Input
-        onChange={debounced}
-        size="large"
-        placeholder="Type to search..."
-        className="input"
-      />
+      <Input onChange={debounced} size="large" placeholder="Type to search..." className="input" />
     </form>
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar

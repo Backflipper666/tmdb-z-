@@ -1,11 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import MovieGenre from './components/MovieGenres/MovieGenres';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import './index.css'
+import App from './App'
+import reportWebVitals from './reportWebVitals'
+import MovieGenre from './components/MovieGenres/MovieGenres'
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
 const obj = {
   28: 'Action',
   12: 'Adventure',
@@ -26,15 +27,15 @@ const obj = {
   53: 'Thriller',
   10752: 'War',
   37: 'Western',
-};
+}
 root.render(
   // <React.StrictMode>
   <MovieGenre.Provider value={obj}>
     <App />
   </MovieGenre.Provider>
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()

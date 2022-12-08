@@ -1,7 +1,8 @@
-import { Rate } from 'antd';
-import './RatedMovie.css';
-const Movie = ({ movie, filmsArray, setFilmsArray, onRate }) => {
-  const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
+import { Rate } from 'antd'
+import './RatedMovie.css'
+
+function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
+  const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500'
 
   const identifyGenre = (genreId) => {
     const obj = {
@@ -24,12 +25,12 @@ const Movie = ({ movie, filmsArray, setFilmsArray, onRate }) => {
       53: 'Thriller',
       10752: 'War',
       37: 'Western',
-    };
-    if (!obj[genreId]) {
-      return 'All';
     }
-    return obj[genreId];
-  };
+    if (!obj[genreId]) {
+      return 'All'
+    }
+    return obj[genreId]
+  }
 
   const convertDate = (date) => {
     // convert this "2022-10-19" to this "October 19, 2022"
@@ -46,55 +47,49 @@ const Movie = ({ movie, filmsArray, setFilmsArray, onRate }) => {
       10: 'October',
       11: 'November',
       12: 'December',
-    };
+    }
 
-    const [year, month, day] = date.split('-');
+    const [year, month, day] = date.split('-')
 
-    const output = `${months[month]} ${day}, ${year}`;
-    return output;
-  };
+    const output = `${months[month]} ${day}, ${year}`
+    return output
+  }
 
   const shortenOverview = (overview, maximumLength = 120) => {
-    const trimmedString = overview.substr(0, maximumLength);
-    return (
-      trimmedString.substr(
-        0,
-        Math.min(trimmedString.length, trimmedString.lastIndexOf(' '))
-      ) + ' ...'
-    );
-  };
-
-  const onRateClick = (number) => {
-    const setLocals = localStorage.getItem('cinemas');
-    console.log(setLocals);
-    console.log(movie.vote_average);
-    setFilmsArray([...filmsArray, movie]);
-    localStorage.setItem('cinemas', JSON.stringify([...filmsArray, movie]));
-
-    onRateSetStars(number);
-
-    onRate([...filmsArray, movie]);
-  };
+    const trimmedString = overview.substr(0, maximumLength)
+    return `${trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(' ')))} ...`
+  }
 
   const onRateSetStars = (num) => {
-    localStorage.setItem(movie.id, num);
-  };
+    localStorage.setItem(movie.id, num)
+  }
+
+  const onRateClick = (number) => {
+    setFilmsArray([...filmsArray, movie])
+    localStorage.setItem('cinemas', JSON.stringify([...filmsArray, movie]))
+
+    onRateSetStars(number)
+
+    onRate([...filmsArray, movie])
+  }
 
   const colorBorder = (num) => {
     if (num < 3) {
-      return <div className="movie__average movie__average-three">{num}</div>;
-    } else if (num >= 3 && num < 5) {
-      return <div className="movie__average movie__average-five">{num}</div>;
-    } else if (num >= 5 && num < 7) {
-      return <div className="movie__average movie__average-seven">{num}</div>;
-    } else if (num >= 7) {
-      return <div className="movie__average movie__average-high">{num}</div>;
+      return <div className="movie__average movie__average-three">{num}</div>
     }
-  };
+    if (num >= 3 && num < 5) {
+      return <div className="movie__average movie__average-five">{num}</div>
+    }
+    if (num >= 5 && num < 7) {
+      return <div className="movie__average movie__average-seven">{num}</div>
+    }
 
-  const currentValue = localStorage.getItem(movie.id);
+    return <div className="movie__average movie__average-high">{num}</div>
+  }
 
-  const isImageAvailable = movie.poster_path === null;
+  const currentValue = localStorage.getItem(movie.id)
+
+  const isImageAvailable = movie.poster_path === null
 
   return (
     <div className="movie__container">
@@ -107,11 +102,6 @@ const Movie = ({ movie, filmsArray, setFilmsArray, onRate }) => {
               : 'https://library.ucf.edu/wp-content/uploads/sites/5/2015/08/photo-not-available-300x300.jpg'
           }
           alt="movie poster"
-          onLoad={() => {
-            if (movie.poster_path === null) {
-              console.log('tratata');
-            }
-          }}
         />
       </div>
       <div className="movie__content-wrapper">
@@ -138,7 +128,7 @@ const Movie = ({ movie, filmsArray, setFilmsArray, onRate }) => {
         <div>{colorBorder(movie.vote_average)}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Movie;
+export default Movie

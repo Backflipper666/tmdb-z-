@@ -1,6 +1,7 @@
-import RatedMovie from '../RatedMovie/RatedMovie';
-import './RatedMovieList.css';
-const RatedMovieList = ({ movies, onRate }) => {
+import RatedMovie from '../RatedMovie/RatedMovie'
+import './RatedMovieList.css'
+
+function RatedMovieList({ movies, onRate }) {
   // console.log('movies is: ', movies);
   return (
     <div className="wrapper-inner rated-movie-list">
@@ -10,18 +11,13 @@ const RatedMovieList = ({ movies, onRate }) => {
         <ul className="movie-list">
           {movies.map((movie) => (
             <li className="movie" key={movie.id}>
-              <RatedMovie
-                key={movie.id}
-                movie={movie}
-                onRate={onRate}
-                movies={movies}
-              />
+              <RatedMovie key={movie.id} movie={movie} onRate={onRate} movies={movies} />
             </li>
           ))}
         </ul>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default RatedMovieList;
+export default RatedMovieList

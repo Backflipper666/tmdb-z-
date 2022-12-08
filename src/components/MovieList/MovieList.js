@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import Movie from '../Movie/Movie';
-import './MovieList.css';
-const MovieList = ({ movies, films, onRate }) => {
+import { useState } from 'react'
+
+import Movie from '../Movie/Movie'
+import './MovieList.css'
+
+function MovieList({ movies, films, onRate }) {
   const [filmsArray, setFilmsArray] = useState(
-    localStorage.getItem('cinemas')
-      ? JSON.parse(localStorage.getItem('cinemas'))
-      : []
-  );
+    localStorage.getItem('cinemas') ? JSON.parse(localStorage.getItem('cinemas')) : []
+  )
   return (
     <ul className="movie-list">
       {movies.map((movie) => (
@@ -22,7 +22,7 @@ const MovieList = ({ movies, films, onRate }) => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
-export default MovieList;
+export default MovieList

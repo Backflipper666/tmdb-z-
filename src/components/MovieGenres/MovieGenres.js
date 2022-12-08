@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+
 const MovieGenre = React.createContext({
   28: 'Action',
   12: 'Adventure',
@@ -19,6 +20,6 @@ const MovieGenre = React.createContext({
   53: 'Thriller',
   10752: 'War',
   37: 'Western',
-});
+})
 
-export default MovieGenre;
+export default MovieGenre

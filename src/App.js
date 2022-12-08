@@ -152,49 +152,53 @@ class App extends React.Component {
         </div>
       );
     }
-    /*    const items = [
-      { label: 'Search', key: 1, children: '' },
-      { label: 'Rated', key: 2, children: 'content - 2' },
+
+    const items = [
+      {
+        label: 'Search',
+        key: 1,
+        children: (
+          <>
+            <SearchBar onInputChange={this.onInputChange} />
+            {this.state.movies.length === 0 ? (
+              <Alert type="error" description="not found" />
+            ) : (
+              <>
+                <MovieList
+                  movies={this.state.movies}
+                  films={this.state.films}
+                  onRate={this.onRate}
+                />
+                <Pagination
+                  defaultCurrent={1}
+                  current={page}
+                  total={totalPages}
+                  onChange={this.onPaginationClick}
+                />
+              </>
+            )}
+          </>
+        ),
+      },
+      {
+        label: 'Rated',
+        key: 2,
+        children: (
+          <>
+            {' '}
+            <SearchBar onInputChange={this.onInputChange} />
+            <RatedMovieList movies={this.state.videos} onRate={this.onRate} />
+          </>
+        ),
+      },
     ];
- */
-    // return <Tabs items={items}/>
 
     return (
       <div className="App">
         <Online>
-          {' '}
           <div className="wrapper">
             <div className="wrapper__inner">
-              <Tabs centered>
-                <Tabs.TabPane tab="Search" key="item-1">
-                  <SearchBar onInputChange={this.onInputChange} />
-                  {this.state.movies.length === 0 ? (
-                    <Alert type="error" description="not found" />
-                  ) : (
-                    <>
-                      <MovieList
-                        movies={this.state.movies}
-                        films={this.state.films}
-                        onRate={this.onRate}
-                      />
-                      <Pagination
-                        defaultCurrent={1}
-                        current={page}
-                        total={totalPages}
-                        onChange={this.onPaginationClick}
-                      />
-                    </>
-                  )}
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="Rated" key="item-2">
-                  {' '}
-                  <SearchBar onInputChange={this.onInputChange} />
-                  <RatedMovieList
-                    movies={this.state.videos}
-                    onRate={this.onRate}
-                  />
-                </Tabs.TabPane>
-              </Tabs>
+              <Tabs items={items} centered />
             </div>
           </div>
         </Online>

@@ -168,13 +168,6 @@ class App extends React.Component {
               <Tabs centered>
                 <Tabs.TabPane tab="Search" key="item-1">
                   <SearchBar onInputChange={this.onInputChange} />
-                  <button
-                    onClick={() => {
-                      localStorage.clear();
-                    }}
-                  >
-                    Clear
-                  </button>
                   {this.state.movies.length === 0 ? (
                     <Alert type="error" description="not found" />
                   ) : (

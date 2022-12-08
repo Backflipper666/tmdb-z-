@@ -1,33 +1,14 @@
 import { Rate } from 'antd';
 import './Movie.css';
-const Movie = ({ movie, films, filmsArray, setFilmsArray, onRate }) => {
+import { useContext } from 'react';
+import MovieGenre from '../MovieGenres/MovieGenres';
+
+const Movie = ({ movie, filmsArray, setFilmsArray, onRate }) => {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
 
-  const empty =
-    'https://cdn.dribbble.com/users/55871/screenshots/2158022/media/8f2a4a2c9126a9f265fb9e1023b1698a.jpg?compress=1&resize=400x300';
+  const obj = useContext(MovieGenre);
 
   const identifyGenre = (genreId) => {
-    const obj = {
-      28: 'Action',
-      12: 'Adventure',
-      16: 'Animation',
-      35: 'Comedy',
-      80: 'Crime',
-      99: 'Documentary',
-      18: 'Drama',
-      10751: 'Family',
-      14: 'Fantasy',
-      36: 'History',
-      27: 'Horror',
-      10402: 'Music',
-      9648: 'Mystery',
-      10749: 'Romance',
-      878: 'Science Fiction',
-      10770: 'TV Movie ',
-      53: 'Thriller',
-      10752: 'War',
-      37: 'Western',
-    };
     if (!obj[genreId]) {
       return 'All';
     }

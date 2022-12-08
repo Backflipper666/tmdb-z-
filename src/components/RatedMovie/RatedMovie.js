@@ -1,6 +1,6 @@
 import { Rate } from 'antd';
 import './RatedMovie.css';
-const RatedMovie = ({ movie, onRate, movies }) => {
+const Movie = ({ movie, filmsArray, setFilmsArray, onRate }) => {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
 
   const identifyGenre = (genreId) => {
@@ -65,20 +65,53 @@ const RatedMovie = ({ movie, onRate, movies }) => {
   };
 
   const onRateClick = (number) => {
-    // console.log(number);
-    // console.log('id is: ', movie.id);
-    onRate(number, movie);
-    console.log(movie);
-    // localStorage.setItem();
+    const setLocals = localStorage.getItem('cinemas');
+    console.log(setLocals);
+    console.log(movie.vote_average);
+    setFilmsArray([...filmsArray, movie]);
+    localStorage.setItem('cinemas', JSON.stringify([...filmsArray, movie]));
+
+    onRateSetStars(number);
+
+    onRate([...filmsArray, movie]);
   };
+
+  const onRateSetStars = (num) => {
+    localStorage.setItem(movie.id, num);
+  };
+
+  const colorBorder = (num) => {
+    if (num < 3) {
+      return <div className="movie__average movie__average-three">{num}</div>;
+    } else if (num >= 3 && num < 5) {
+      return <div className="movie__average movie__average-five">{num}</div>;
+    } else if (num >= 5 && num < 7) {
+      return <div className="movie__average movie__average-seven">{num}</div>;
+    } else if (num >= 7) {
+      return <div className="movie__average movie__average-high">{num}</div>;
+    }
+  };
+
+  const currentValue = localStorage.getItem(movie.id);
+
+  const isImageAvailable = movie.poster_path === null;
 
   return (
     <div className="movie__container">
       <div className="movie__image-wrapper">
         <img
           className="movie__image"
-          src={`${IMAGE_PATH}/${movie.poster_path}`}
+          src={
+            !isImageAvailable
+              ? `${IMAGE_PATH}/${movie.poster_path}`
+              : 'https://library.ucf.edu/wp-content/uploads/sites/5/2015/08/photo-not-available-300x300.jpg'
+          }
           alt="movie poster"
+          onLoad={() => {
+            if (movie.poster_path === null) {
+              console.log('tratata');
+            }
+          }}
         />
       </div>
       <div className="movie__content-wrapper">
@@ -96,14 +129,16 @@ const RatedMovie = ({ movie, onRate, movies }) => {
 
         <Rate
           allowHalf
-          defaultValue={5}
+          defaultValue={0}
+          value={currentValue ? Number(currentValue) : 0}
           count={10}
           className="movie__rate"
           onChange={onRateClick}
         />
+        <div>{colorBorder(movie.vote_average)}</div>
       </div>
     </div>
   );
 };
 
-export default RatedMovie;
+export default Movie;

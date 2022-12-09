@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 import React from 'react'
 import axios from 'axios'
 import { Spin, message, Alert, Pagination, Tabs } from 'antd'

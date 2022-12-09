@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import Movie from '../Movie/Movie'
-import './MovieList.css'
+import './MovieList.scss'
 
 function MovieList({ movies, films, onRate }) {
   const [filmsArray, setFilmsArray] = useState(

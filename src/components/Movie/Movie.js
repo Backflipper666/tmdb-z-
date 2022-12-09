@@ -1,5 +1,5 @@
 import { Rate } from 'antd'
-import './Movie.css'
+import './Movie.scss'
 import { useContext } from 'react'
 
 import MovieGenre from '../MovieGenres/MovieGenres'

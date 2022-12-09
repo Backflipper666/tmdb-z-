@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { Input } from 'antd'
-import './SearchBar.css'
+import './SearchBar.scss'
 
 function SearchBar({ onInputChange }) {
   const debounced = _.debounce((e) => {

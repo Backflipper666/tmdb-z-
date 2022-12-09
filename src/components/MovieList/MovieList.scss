@@ -2,15 +2,17 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   row-gap: 36px;
-  margin-bottom: 36px;
   gap: 36px;
-  row-gap: 36px;
   margin-bottom: 36px;
 }
 
 @media (max-width: 720px) {
   .movie-list {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    align-items: center;
   }
 }

@@ -16,29 +16,6 @@ function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
     return obj[genreId]
   }
 
-  const convertDate = (date = '2022-10-19') => {
-    // convert this "2022-10-19" to this "October 19, 2022"
-    const months = {
-      '01': 'January',
-      '02': 'February',
-      '03': 'March',
-      '04': 'April',
-      '05': 'May',
-      '06': 'June',
-      '07': 'July',
-      '08': 'August',
-      '09': 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December',
-    }
-
-    const [year, month, day] = date.split('-')
-
-    const output = `${months[month]} ${day}, ${year}`
-    return output
-  }
-
   const shortenOverview = (overview, maximumLength = 120) => {
     const trimmedString = overview.substr(0, maximumLength)
     return `${trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(' ')))} ...`
@@ -69,6 +46,13 @@ function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
     }
 
     return <div className="movie__average movie__average-high">{num}</div>
+  }
+
+  const convertDate = (date) => {
+    if (!date) return 'unknown'
+    const object = new Date(date)
+    const month = object.toLocaleString('en', { month: 'long' })
+    return `${month} ${object.getDate()} ${object.getFullYear()}`
   }
 
   const currentValue = localStorage.getItem(movie.id)

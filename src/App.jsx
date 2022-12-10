@@ -7,6 +7,7 @@ import { Offline, Online } from 'react-detect-offline'
 import MovieList from './components/MovieList/MovieList'
 import SearchBar from './components/SearchBar/SearchBar'
 import RatedMovieList from './components/RatedMovieList/RatedMovieList'
+import MovieGenre from './components/MovieGenres/MovieGenres'
 
 class App extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class App extends React.Component {
       guestSessionId: null,
       totalPages: 3,
       videos: localStorage.getItem('cinemas') ? JSON.parse(localStorage.getItem('cinemas')) : [],
+      genres: [{ id: 28, name: 'action' }],
     }
     this.searchReturnMethod = this.searchReturnMethod.bind(this)
   }
@@ -30,6 +32,7 @@ class App extends React.Component {
   componentDidMount() {
     this.searchReturnMethod()
     this.createGuestSession()
+    this.getMovieGenres()
   }
 
   componentDidUpdate(_prevProps, prevState) {
@@ -58,6 +61,48 @@ class App extends React.Component {
     this.setState({
       page: e,
     })
+  }
+
+  // eslint-disable-next-line react/no-unused-class-component-methods
+  getMovieGenres() {
+    const getGenres = async () => {
+      const response = await axios(`${this.API_URL}/genre/movie/list`, {
+        params: {
+          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
+        },
+      })
+      // console.log(response)
+      const {
+        data: { genres },
+      } = response
+      this.setState((state) => ({
+        genres: state.genres.length > 1 ? state.genres : genres,
+      }))
+    }
+    getGenres()
+
+    axios.interceptors.response.use(
+      (response) => {
+        if (response.data) {
+          // return success
+          if (response.status === 200 || response.status === 201) {
+            return response
+          }
+          // reject errors & warnings
+          return Promise.reject(response)
+        }
+
+        return Promise.reject(response)
+      },
+      (error) => {
+        message.error('unknown error occurred')
+        this.setState({
+          loading: false,
+          error: true,
+        })
+        return Promise.reject(error)
+      }
+    )
   }
 
   searchReturnMethod() {
@@ -126,8 +171,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { loading, error, page, totalPages, movies, films, videos, guestSessionId } = this.state
+    const { loading, error, page, totalPages, movies, films, videos, guestSessionId, genres } = this.state
     const isPaginationNeeded = totalPages > 10
+
     if (error) {
       return <Alert type="error" description="unknown error occurred, try again later" />
     }
@@ -150,7 +196,9 @@ class App extends React.Component {
               <Alert type="error" description="not found" />
             ) : (
               <>
-                <MovieList movies={movies} films={films} onRate={this.onRate} guestSessionId={guestSessionId} />
+                <MovieGenre.Provider value={genres}>
+                  <MovieList movies={movies} films={films} onRate={this.onRate} guestSessionId={guestSessionId} />
+                </MovieGenre.Provider>
                 {isPaginationNeeded ? (
                   <Pagination defaultCurrent={1} current={page} total={totalPages} onChange={this.onPaginationClick} />
                 ) : null}

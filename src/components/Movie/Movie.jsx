@@ -7,13 +7,14 @@ import MovieGenre from '../MovieGenres/MovieGenres'
 function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500'
 
-  const obj = useContext(MovieGenre)
+  const arrayOfObjects = useContext(MovieGenre)
 
-  const identifyGenre = (genreId) => {
-    if (!obj[genreId]) {
+  const getGenre = (num) => {
+    const theRightGenre = arrayOfObjects.filter((item) => item.id === num)
+    if (!theRightGenre[0]) {
       return 'All'
     }
-    return obj[genreId]
+    return theRightGenre[0].name
   }
 
   const shortenOverview = (overview, maximumLength = 120) => {
@@ -79,7 +80,7 @@ function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
         <p>
           {movie.genre_ids.slice(0, 2).map((genreNum) => (
             <span key={Math.random()} className="movie__genres">
-              {identifyGenre(genreNum)}
+              {getGenre(genreNum)}
             </span>
           ))}
         </p>

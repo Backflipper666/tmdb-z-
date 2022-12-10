@@ -16,7 +16,7 @@ function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
     return obj[genreId]
   }
 
-  const convertDate = (date) => {
+  const convertDate = (date = '2022-10-19') => {
     // convert this "2022-10-19" to this "October 19, 2022"
     const months = {
       '01': 'January',

@@ -127,6 +127,7 @@ class App extends React.Component {
 
   render() {
     const { loading, error, page, totalPages, movies, films, videos, guestSessionId } = this.state
+    const isPaginationNeeded = totalPages > 10
     if (error) {
       return <Alert type="error" description="unknown error occurred, try again later" />
     }
@@ -150,7 +151,9 @@ class App extends React.Component {
             ) : (
               <>
                 <MovieList movies={movies} films={films} onRate={this.onRate} guestSessionId={guestSessionId} />
-                <Pagination defaultCurrent={1} current={page} total={totalPages} onChange={this.onPaginationClick} />
+                {isPaginationNeeded ? (
+                  <Pagination defaultCurrent={1} current={page} total={totalPages} onChange={this.onPaginationClick} />
+                ) : null}
               </>
             )}
           </>

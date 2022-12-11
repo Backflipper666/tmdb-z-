@@ -214,7 +214,9 @@ class App extends React.Component {
           <>
             {' '}
             <SearchBar onInputChange={this.onInputChange} />
-            <RatedMovieList movies={videos} onRate={this.onRate} />
+            <MovieGenre.Provider value={genres}>
+              <RatedMovieList movies={videos} onRate={this.onRate} />
+            </MovieGenre.Provider>
           </>
         ),
       },

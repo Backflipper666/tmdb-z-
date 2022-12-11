@@ -3,57 +3,20 @@ import './Movie.scss'
 import { useContext } from 'react'
 
 import MovieGenre from '../MovieGenres/MovieGenres'
+import { colorBorder, getGenre, convertDate, shortenOverview, onRateSetStars } from '../../utils'
 
 function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
   const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500'
 
   const arrayOfObjects = useContext(MovieGenre)
 
-  const getGenre = (num) => {
-    const theRightGenre = arrayOfObjects.filter((item) => item.id === num)
-    if (!theRightGenre[0]) {
-      return 'All'
-    }
-    return theRightGenre[0].name
-  }
-
-  const shortenOverview = (overview, maximumLength = 120) => {
-    const trimmedString = overview.substr(0, maximumLength)
-    return `${trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(' ')))} ...`
-  }
-
-  const onRateSetStars = (num) => {
-    localStorage.setItem(movie.id, num)
-  }
-
   const onRateClick = (number) => {
     setFilmsArray([...filmsArray, movie])
     localStorage.setItem('cinemas', JSON.stringify([...filmsArray, movie]))
 
-    onRateSetStars(number)
+    onRateSetStars(number, movie)
 
     onRate([...filmsArray, movie])
-  }
-
-  const colorBorder = (num) => {
-    if (num < 3) {
-      return <div className="movie__average movie__average-three">{num}</div>
-    }
-    if (num >= 3 && num < 5) {
-      return <div className="movie__average movie__average-five">{num}</div>
-    }
-    if (num >= 5 && num < 7) {
-      return <div className="movie__average movie__average-seven">{num}</div>
-    }
-
-    return <div className="movie__average movie__average-high">{num}</div>
-  }
-
-  const convertDate = (date) => {
-    if (!date) return 'unknown'
-    const object = new Date(date)
-    const month = object.toLocaleString('en', { month: 'long' })
-    return `${month} ${object.getDate()} ${object.getFullYear()}`
   }
 
   const currentValue = localStorage.getItem(movie.id)
@@ -80,7 +43,7 @@ function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
         <p>
           {movie.genre_ids.slice(0, 2).map((genreNum) => (
             <span key={Math.random()} className="movie__genres">
-              {getGenre(genreNum)}
+              {getGenre(genreNum, arrayOfObjects)}
             </span>
           ))}
         </p>

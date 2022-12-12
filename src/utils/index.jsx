@@ -36,4 +36,25 @@ const onRateSetStars = (num, movie) => {
   localStorage.setItem(movie.id, num)
 }
 
-export { colorBorder, getGenre, convertDate, shortenOverview, onRateSetStars }
+const checkArray = (array, id, number) => {
+  // if it is already there, change its value to number
+  const newArr = array.map((item) => {
+    if (item.id === id) {
+      // eslint-disable-next-line no-param-reassign
+      item.number = number
+      return item
+    }
+    return item
+  })
+  // if not there, add it to the array
+  const filteredArr = newArr.filter((item) => item.id === id)
+  const isItNewItem = filteredArr.length === 0
+  if (isItNewItem) {
+    const brandNewArray = [...array, { id, number }]
+    return brandNewArray
+  }
+
+  return newArr
+}
+
+export { colorBorder, getGenre, convertDate, shortenOverview, onRateSetStars, checkArray }

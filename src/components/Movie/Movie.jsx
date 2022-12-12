@@ -16,7 +16,7 @@ function Movie({ movie, filmsArray, setFilmsArray, onRate }) {
 
     onRateSetStars(number, movie)
 
-    onRate([...filmsArray, movie])
+    onRate([...filmsArray, movie], movie.id, number)
   }
 
   const currentValue = localStorage.getItem(movie.id)

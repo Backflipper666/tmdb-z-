@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Movie from '../Movie/Movie'
 import './MovieList.scss'
 
-function MovieList({ movies, films, onRate }) {
+function MovieList({ movies, films, onRate, idsAndStars }) {
   const [filmsArray, setFilmsArray] = useState(
     localStorage.getItem('cinemas') ? JSON.parse(localStorage.getItem('cinemas')) : []
   )
@@ -18,6 +18,7 @@ function MovieList({ movies, films, onRate }) {
             filmsArray={filmsArray}
             setFilmsArray={setFilmsArray}
             onRate={onRate}
+            idsAndStars={idsAndStars}
           />
         </li>
       ))}

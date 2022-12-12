@@ -8,6 +8,7 @@ import MovieList from './components/MovieList/MovieList'
 import SearchBar from './components/SearchBar/SearchBar'
 import RatedMovieList from './components/RatedMovieList/RatedMovieList'
 import MovieGenre from './components/MovieGenres/MovieGenres'
+import { checkArray } from './utils'
 
 class App extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class App extends React.Component {
       totalPages: 3,
       videos: localStorage.getItem('cinemas') ? JSON.parse(localStorage.getItem('cinemas')) : [],
       genres: [{ id: 28, name: 'action' }],
+      idsAndStars: [{ 1: 1 }],
     }
     this.searchReturnMethod = this.searchReturnMethod.bind(this)
   }
@@ -51,9 +53,15 @@ class App extends React.Component {
     })
   }
 
-  onRate = (arr) => {
+  onRate = (arr, id, number) => {
+    const { idsAndStars } = this.state
+
     this.setState(() => ({
       videos: arr,
+    }))
+    const newArray = checkArray(idsAndStars, id, number)
+    this.setState(() => ({
+      idsAndStars: newArray,
     }))
   }
 
@@ -171,7 +179,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { loading, error, page, totalPages, movies, films, videos, guestSessionId, genres } = this.state
+    const { loading, error, page, totalPages, movies, films, videos, guestSessionId, genres, idsAndStars } = this.state
     const isPaginationNeeded = totalPages > 10
 
     if (error) {
@@ -197,7 +205,13 @@ class App extends React.Component {
             ) : (
               <>
                 <MovieGenre.Provider value={genres}>
-                  <MovieList movies={movies} films={films} onRate={this.onRate} guestSessionId={guestSessionId} />
+                  <MovieList
+                    movies={movies}
+                    films={films}
+                    onRate={this.onRate}
+                    guestSessionId={guestSessionId}
+                    idsAndStars={idsAndStars}
+                  />
                 </MovieGenre.Provider>
                 {isPaginationNeeded ? (
                   <Pagination defaultCurrent={1} current={page} total={totalPages} onChange={this.onPaginationClick} />

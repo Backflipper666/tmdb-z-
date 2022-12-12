@@ -57,4 +57,23 @@ const checkArray = (array, id, number) => {
   return newArr
 }
 
-export { colorBorder, getGenre, convertDate, shortenOverview, onRateSetStars, checkArray }
+const checkIfArrayIncludes = (arr, id) => {
+  const filteredArr = arr.filter((item) => item.id === id)
+  return filteredArr.length > 0
+}
+
+const cleanArray = (array, id) => {
+  const cleanupArray = array.filter((item) => item.id !== id)
+  return cleanupArray
+}
+
+export {
+  colorBorder,
+  getGenre,
+  convertDate,
+  shortenOverview,
+  onRateSetStars,
+  checkArray,
+  checkIfArrayIncludes,
+  cleanArray,
+}

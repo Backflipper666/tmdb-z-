@@ -26,7 +26,9 @@ class App extends React.Component {
       totalPages: 3,
       videos: localStorage.getItem('cinemas') ? JSON.parse(localStorage.getItem('cinemas')) : [],
       genres: [{ id: 28, name: 'action' }],
-      idsAndStars: [{ 1: 1 }],
+      idsAndStars: JSON.parse(localStorage.getItem('idsAndStars'))
+        ? JSON.parse(localStorage.getItem('idsAndStars'))
+        : [],
     }
     this.searchReturnMethod = this.searchReturnMethod.bind(this)
   }
@@ -63,6 +65,7 @@ class App extends React.Component {
     this.setState(() => ({
       idsAndStars: newArray,
     }))
+    localStorage.setItem('idsAndStars', JSON.stringify(newArray))
   }
 
   onPaginationClick = (e) => {

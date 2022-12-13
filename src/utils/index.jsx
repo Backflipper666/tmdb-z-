@@ -67,6 +67,16 @@ const cleanArray = (array, id) => {
   return cleanupArray
 }
 
+const addItemToArray = (arr, id, number) => {
+  const copyArr = [...arr, { id, number }]
+  return copyArr
+}
+
+const removeDuplicates = (array) => {
+  const unique = array.filter((value, index, self) => index === self.findLastIndex((t) => t.id === value.id))
+  return unique
+}
+
 export {
   colorBorder,
   getGenre,
@@ -76,4 +86,6 @@ export {
   checkArray,
   checkIfArrayIncludes,
   cleanArray,
+  addItemToArray,
+  removeDuplicates,
 }

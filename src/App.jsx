@@ -8,7 +8,7 @@ import MovieList from './components/MovieList/MovieList'
 import SearchBar from './components/SearchBar/SearchBar'
 import RatedMovieList from './components/RatedMovieList/RatedMovieList'
 import MovieGenre from './components/MovieGenres/MovieGenres'
-import { checkArray, cleanArray } from './utils'
+import { cleanArray, checkArray } from './utils'
 
 class App extends React.Component {
   constructor(props) {
@@ -57,6 +57,7 @@ class App extends React.Component {
 
   onRate = (arr, id, number) => {
     const { idsAndStars } = this.state
+    const copyIdsAndStars = [...idsAndStars]
     const cleanArr = cleanArray(arr)
 
     // const alreadyRated = checkIfArrayIncludes(videos, id)
@@ -65,7 +66,9 @@ class App extends React.Component {
       videos: cleanArr,
     }))
 
-    const newArray = checkArray(idsAndStars, id, number)
+    const newArray = checkArray(copyIdsAndStars, id, number)
+    // console.log(newArray)
+
     this.setState(() => ({
       idsAndStars: newArray,
     }))

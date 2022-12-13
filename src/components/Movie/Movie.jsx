@@ -11,7 +11,6 @@ function Movie({ movie, filmsArray, setFilmsArray, onRate, idsAndStars }) {
   const arrayOfObjects = useContext(MovieGenre)
 
   const onRateClick = (number) => {
-    // console.log(idsAndStars)
     const doesItInclude = checkIfArrayIncludes([...filmsArray], movie.id)
     if (!doesItInclude) {
       setFilmsArray([...filmsArray, movie])
@@ -27,11 +26,8 @@ function Movie({ movie, filmsArray, setFilmsArray, onRate, idsAndStars }) {
     onRateSetStars(number, movie)
     onRate([...filmsArray, movie], movie.id, number)
   }
-  /* 
-  const currentValue = localStorage.getItem(movie.id)
-  console.log(currentValue) */
+
   const valueFromAppState = idsAndStars.filter((item) => item.id === movie.id)
-  // console.log('valueFromAppState: ', valueFromAppState)
 
   const isImageAvailable = movie.poster_path === null
 

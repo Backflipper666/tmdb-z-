@@ -60,14 +60,11 @@ class App extends React.Component {
     const copyIdsAndStars = [...idsAndStars]
     const cleanArr = cleanArray(arr)
 
-    // const alreadyRated = checkIfArrayIncludes(videos, id)
-
     this.setState(() => ({
       videos: cleanArr,
     }))
 
     const newArray = checkArray(copyIdsAndStars, id, number)
-    // console.log(newArray)
 
     this.setState(() => ({
       idsAndStars: newArray,

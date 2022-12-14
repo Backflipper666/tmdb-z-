@@ -94,7 +94,7 @@ class App extends React.Component {
 
     const data = getData(searchReturn, searchWord, page)
     data.then((res) => {
-      const { results, page1, total_pages: totalPages } = res
+      const { results, page: page1, total_pages: totalPages } = res
       this.setState({
         movies: results,
         loading: false,

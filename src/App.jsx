@@ -1,19 +1,18 @@
 import './App.scss'
 import React from 'react'
-import axios from 'axios'
-import { Spin, message, Alert, Pagination, Tabs } from 'antd'
+import { Spin, Alert, Pagination, Tabs } from 'antd'
 import { Offline, Online } from 'react-detect-offline'
 
 import MovieList from './components/MovieList/MovieList'
 import SearchBar from './components/SearchBar/SearchBar'
 import RatedMovieList from './components/RatedMovieList/RatedMovieList'
 import MovieGenre from './components/MovieGenres/MovieGenres'
+import { searchReturn, getData, createGuestSession, getMovieGenres } from './service/service'
 import { cleanArray, checkArray } from './utils'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.API_URL = 'https://api.themoviedb.org/3'
 
     this.state = {
       movies: [],
@@ -78,111 +77,43 @@ class App extends React.Component {
     })
   }
 
-  // eslint-disable-next-line react/no-unused-class-component-methods
   getMovieGenres() {
-    const getGenres = async () => {
-      const response = await axios(`${this.API_URL}/genre/movie/list`, {
-        params: {
-          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
-        },
-      })
-      // console.log(response)
+    const result = getMovieGenres()
+    result.then((res) => {
       const {
         data: { genres },
-      } = response
+      } = res
       this.setState((state) => ({
         genres: state.genres.length > 1 ? state.genres : genres,
       }))
-    }
-    getGenres()
-
-    axios.interceptors.response.use(
-      (response) => {
-        if (response.data) {
-          // return success
-          if (response.status === 200 || response.status === 201) {
-            return response
-          }
-          // reject errors & warnings
-          return Promise.reject(response)
-        }
-
-        return Promise.reject(response)
-      },
-      (error) => {
-        message.error('unknown error occurred')
-        this.setState({
-          loading: false,
-          error: true,
-        })
-        return Promise.reject(error)
-      }
-    )
+    })
   }
 
   searchReturnMethod() {
-    const searchReturn = async () => {
-      const { searchWord } = this.state
+    const { searchWord, page } = this.state
 
-      const response = await axios(`${this.API_URL}/search/movie`, {
-        params: {
-          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
-          query: searchWord.trim().length ? `${searchWord}` : 'return',
-          // eslint-disable-next-line react/destructuring-assignment
-          page: this.state.page,
-        },
-      })
-      const {
-        data: { results, page, total_pages: totalPages },
-      } = response
+    const data = getData(searchReturn, searchWord, page)
+    data.then((res) => {
+      const { results, page1, total_pages: totalPages } = res
       this.setState({
         movies: results,
         loading: false,
-        page,
+        page: page1,
         totalPages,
       })
-    }
-    searchReturn()
-
-    axios.interceptors.response.use(
-      (response) => {
-        if (response.data) {
-          // return success
-          if (response.status === 200 || response.status === 201) {
-            return response
-          }
-          // reject errors & warnings
-          return Promise.reject(response)
-        }
-
-        return Promise.reject(response)
-      },
-      (error) => {
-        message.error('unknown error occurred')
-        this.setState({
-          loading: false,
-          error: true,
-        })
-        return Promise.reject(error)
-      }
-    )
+    })
   }
 
   createGuestSession() {
-    const createGuest = async () => {
-      const response = await axios(`${this.API_URL}/authentication/guest_session/new`, {
-        params: {
-          api_key: '6bd0539fb9138af422e46ebff4f7ca19',
-        },
-      })
+    const result = createGuestSession()
+    result.then((res) => {
       const {
-        data: { guest_session_id: guestSession },
-      } = response
+        data: { guest_session_id: guestId },
+      } = res
       this.setState(() => ({
-        guestSessionId: guestSession,
+        guestSessionId: guestId,
       }))
-    }
-    createGuest()
+    })
   }
 
   render() {
